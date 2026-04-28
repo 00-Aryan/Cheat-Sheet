@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scikit-Learn — AI/ML Student's Reference Sheet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --bg: #0d0f14; --bg2: #13161e; --bg3: #1a1e2a; --border: #252836; --border2: #2e3347; --text: #c9cdd8; --text-dim: #676e85; --text-bright: #e8eaf0; --accent: #5a9cf0; --accent2: #3d7de0; --green: #4ecb8d; --red: #f0606e; --amber: #f0b559; --purple: #a47cf0; --teal: #3ec9c9; --mono: 'IBM Plex Mono', 'Courier New', monospace; --sans: 'IBM Plex Sans', system-ui, sans-serif; --sidebar: 260px; --radius: 6px; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.7; display: flex; min-height: 100vh; }
+  #sidebar { width: var(--sidebar); position: fixed; top: 0; left: 0; bottom: 0; background: var(--bg2); border-right: 1px solid var(--border); overflow-y: auto; padding: 0 0 2rem; z-index: 100; scrollbar-width: thin; scrollbar-color: var(--border2) transparent; }
+  #sidebar-header { padding: 1.25rem 1.25rem 1rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg2); z-index: 10; }
+  #sidebar-header .logo { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+  #sidebar-header h1 { font-size: 13px; font-weight: 500; color: var(--text-bright); line-height: 1.4; }
+  .nav-section { padding: 1rem 0 0; }
+  .nav-label { font-family: var(--mono); font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; padding: 0 1.25rem 0.4rem; display: block; }
+  .nav-item { display: block; padding: 0.35rem 1.25rem; color: var(--text-dim); text-decoration: none; font-size: 13px; border-left: 2px solid transparent; transition: color 0.15s, border-color 0.15s, background 0.15s; }
+  .nav-item:hover { color: var(--text); background: var(--bg3); }
+  .nav-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(90,156,240,0.07); }
+  main { margin-left: var(--sidebar); flex: 1; padding: 3rem 2.5rem 5rem; max-width: calc(100vw - var(--sidebar)); }
+  .content-wrap { max-width: 820px; }
+  .hero { border: 1px solid var(--border2); background: var(--bg2); border-radius: var(--radius); padding: 1.75rem 2rem; margin-bottom: 3rem; }
+  .hero-badge { font-family: var(--mono); font-size: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 6px; }
+  .hero-badge::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink 2s ease-in-out infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .hero h2 { font-size: 22px; font-weight: 500; color: var(--text-bright); margin-bottom: 0.5rem; }
+  .hero p { color: var(--text-dim); font-size: 14px; }
+  section { margin-bottom: 4rem; scroll-margin-top: 2rem; }
+  .section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+  .section-num { font-family: var(--mono); font-size: 11px; color: var(--accent); background: rgba(90,156,240,0.1); border: 1px solid rgba(90,156,240,0.25); border-radius: 4px; padding: 2px 8px; min-width: 28px; text-align: center; }
+  h2 { font-size: 20px; font-weight: 500; color: var(--text-bright); }
+  pre { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem 1.25rem; overflow-x: auto; margin: 1rem 0; position: relative; }
+  pre code { font-family: var(--mono); font-size: 12.5px; color: #a8b3c8; line-height: 1.65; background: none; border: none; padding: 0; }
+  .pre-label { font-family: var(--mono); font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; background: var(--bg3); border: 1px solid var(--border); border-bottom: none; border-radius: var(--radius) var(--radius) 0 0; padding: 4px 12px; display: inline-block; margin-bottom: -1px; margin-top: 0.5rem; }
+  code { font-family: var(--mono); font-size: 12.5px; color: var(--accent); background: rgba(90,156,240,0.1); border: 1px solid rgba(90,156,240,0.2); border-radius: 3px; padding: 1px 5px; }
+  .callout { border-radius: var(--radius); padding: 0.9rem 1.1rem; margin: 1rem 0; font-size: 14px; border-left: 3px solid; }
+  .callout-info { background: rgba(90,156,240,0.08); border-color: var(--accent); color: var(--text); }
+  .callout-warn { background: rgba(240,181,89,0.08); border-color: var(--amber); color: var(--text); }
+  .cmd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 12px; margin: 1.25rem 0; }
+  .cmd-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; transition: border-color 0.2s; }
+  .cmd-card:hover { border-color: var(--border2); }
+  .cmd-name { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--accent); margin-bottom: 0.3rem; }
+  .cmd-desc { font-size: 13px; color: var(--text); margin-bottom: 0.4rem; }
+  .cmd-tag { font-size: 10px; font-family: var(--mono); padding: 2px 6px; border-radius: 3px; display: inline-block; margin-left: 6px; vertical-align: middle; }
+  .tag-red  { background: rgba(240,96,110,0.15); color: var(--red); border: 1px solid rgba(240,96,110,0.3); }
+  .tag-amber { background: rgba(240,181,89,0.15); color: var(--amber); border: 1px solid rgba(240,181,89,0.3); }
+  .tag-blue { background: rgba(90,156,240,0.15); color: var(--accent); border: 1px solid rgba(90,156,240,0.3); }
+  @media (max-width: 768px) { #sidebar { display: none; } main { margin-left: 0; padding: 1.5rem; max-width: 100%; } .cmd-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav id="sidebar">
+  <div id="sidebar-header">
+    <div class="logo">⬡ Data Science</div>
+    <h1>Scikit-Learn Reference Sheet</h1>
+  </div>
+  <div class="nav-section">
+    <span class="nav-label">Navigation</span>
+    <a class="nav-item" href="../index.html">← Back to Hub</a>
+    <span class="nav-label" style="margin-top: 1rem;">Sections</span>
+    <a class="nav-item active" href="#split">01 — Train-Test Split</a>
+    <a class="nav-item" href="#preprocess">02 — Preprocessing</a>
+    <a class="nav-item" href="#models">03 — Model Training</a>
+    <a class="nav-item" href="#eval">04 — Evaluation Metrics</a>
+    <a class="nav-item" href="#tune">05 — Hyperparameter Tuning</a>
+    <a class="nav-item" href="#pipelines">06 — Pipelines</a>
+  </div>
+</nav>
+
+<main>
+<div class="content-wrap">
+
+  <div class="hero">
+    <div class="hero-badge">Data Science — April 2026</div>
+    <h2>Scikit-Learn Mastery</h2>
+    <p>The standard Machine Learning workflow: from splitting data and preprocessing, to training models, evaluating them, and chaining pipelines.</p>
+  </div>
+
+  <section id="split">
+    <div class="section-head"><span class="section-num">01</span><h2>Train-Test Split</h2></div>
+    <div class="cmd-grid">
+      <div class="cmd-card">
+        <div class="cmd-name">Basic Split <span class="cmd-tag tag-red">daily</span></div>
+        <div class="cmd-desc">Standard random split</div>
+        <div class="pre-label">python</div>
+        <pre><code>from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)</code></pre>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">Stratified Split <span class="cmd-tag tag-red">daily</span></div>
+        <div class="cmd-desc">Maintain class distribution</div>
+        <div class="pre-label">python</div>
+        <pre><code>X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, stratify=y, random_state=42
+)</code></pre>
+        <div class="callout callout-warn" style="margin-top:8px;font-size:12px;padding:6px 10px;">⚠ Always use stratify for classification tasks to prevent unbalanced folds.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="preprocess">
+    <div class="section-head"><span class="section-num">02</span><h2>Preprocessing</h2></div>
+    <div class="cmd-grid">
+      <div class="cmd-card">
+        <div class="cmd-name">Standard Scaling <span class="cmd-tag tag-red">daily</span></div>
+        <div class="cmd-desc">Zero mean, unit variance</div>
+        <div class="pre-label">python</div>
+        <pre><code>from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)</code></pre>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">MinMax Scaling <span class="cmd-tag tag-amber">common</span></div>
+        <div class="cmd-desc">Scale to [0, 1] range</div>
+        <div class="pre-label">python</div>
+        <pre><code>from sklearn.preprocessing import MinMaxScaler
+
+scaler = MinMaxScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)</code></pre>
+      </div>
+      
+      <div class="cmd-card">
+        <div class="cmd-name">One-Hot Encoding <span class="cmd-tag tag-red">daily</span></div>
+        <div class="cmd-desc">Encode categorical variables</div>
+        <div class="pre-label">python</div>
+        <pre><code>from sklearn.preprocessing import OneHotEncoder
+
+ohe = OneHotEncoder(drop='first', sparse_output=False)
+encoded = ohe.fit_transform(df[['category']])</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="models">
+    <div class="section-head"><span class="section-num">03</span><h2>Model Training</h2></div>
+    <div class="cmd-grid">
+      <div class="cmd-card">
+        <div class="cmd-name">Logistic Regression <span class="cmd-tag tag-red">daily</span></div>
+        <div class="cmd-desc">Standard linear classification</div>
+        <div class="pre-label">python</div>
+        <pre><code>from sklearn.linear_model import LogisticRegression
+
+model = LogisticRegression(max_iter=1000)
+model.fit(X_train, y_train)
+preds = model.predict(X_test)</code></pre>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">Random Forest <span class="cmd-tag tag-red">daily</span></div>
+        <div class="cmd-desc">Robust ensemble method</div>
+        <div class="pre-label">python</div>
+        <pre><code>from sklearn.ensemble import RandomForestClassifier
+
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+feature_importances = model.feature_importances_</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="eval">
+    <div class="section-head"><span class="section-num">04</span><h2>Evaluation Metrics</h2></div>
+    <div class="cmd-grid">
+      <div class="cmd-card">
+        <div class="cmd-name">Classification Report <span class="cmd-tag tag-red">daily</span></div>
+        <div class="cmd-desc">Precision, Recall, F1-Score</div>
+        <div class="pre-label">python</div>
+        <pre><code>from sklearn.metrics import classification_report
+
+print(classification_report(y_test, preds))</code></pre>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">Confusion Matrix <span class="cmd-tag tag-red">daily</span></div>
+        <div class="cmd-desc">True Positives vs False Positives</div>
+        <div class="pre-label">python</div>
+        <pre><code>from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+
+cm = confusion_matrix(y_test, preds)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+disp.plot()</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="pipelines">
+    <div class="section-head"><span class="section-num">06</span><h2>Pipelines</h2></div>
+    <div class="cmd-grid">
+      <div class="cmd-card" style="grid-column: 1 / -1;">
+        <div class="cmd-name">End-to-End Pipeline <span class="cmd-tag tag-amber">common</span></div>
+        <div class="cmd-desc">Chain preprocessing and modeling safely without data leakage</div>
+        <div class="pre-label">python</div>
+        <pre><code>from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+
+pipeline = Pipeline([
+    ('scaler', StandardScaler()),
+    ('rf', RandomForestClassifier(random_state=42))
+])
+
+# Fit and predict all at once
+pipeline.fit(X_train, y_train)
+y_pred = pipeline.predict(X_test)</code></pre>
+      </div>
+    </div>
+  </section>
+
+</div>
+</main>
+<script>
+  const items = document.querySelectorAll('.nav-item');
+  const sections = document.querySelectorAll('section');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        items.forEach(a => a.classList.remove('active'));
+        const link = document.querySelector('.nav-item[href="#' + e.target.id + '"]');
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '-60px 0px -60% 0px' });
+  document.querySelectorAll('section[id]').forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

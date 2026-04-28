@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DS/ML Reference Hub</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0d0f14;
+    color: #c9cdd8;
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    padding: 4rem 2rem;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  .container { max-width: 900px; width: 100%; }
+  h1 { color: #e8eaf0; font-size: 28px; font-weight: 500; margin-bottom: 0.5rem; }
+  p { color: #676e85; font-size: 15px; margin-bottom: 3rem; }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .card {
+    background: #13161e;
+    border: 1px solid #252836;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card:hover {
+    border-color: #5a9cf0;
+    transform: translateY(-2px);
+    background: #1a1e2a;
+  }
+  
+  .card-title {
+    color: #5a9cf0;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .card-desc { color: #a8b3c8; font-size: 14px; line-height: 1.6; }
+  
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(90,156,240,0.1);
+    border: 1px solid rgba(90,156,240,0.2);
+    color: #5a9cf0;
+  }
+  .badge.wip { background: rgba(240,181,89,0.1); border-color: rgba(240,181,89,0.2); color: #f0b559; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Data Science & ML Reference Hub</h1>
+  <p>A centralized collection of premium, interactive cheat sheets for the modern stack.</p>
+  
+  <div class="grid">
+    <a href="cheatsheets/claude-code-reference.html" class="card">
+      <div class="card-title">Claude Code Mastery <span class="badge">Tooling</span></div>
+      <div class="card-desc">Advanced workflows, slash commands, and mindset shifts for agentic coding.</div>
+    </a>
+    
+    <a href="cheatsheets/pandas.html" class="card">
+      <div class="card-title">Pandas <span class="badge">Data</span></div>
+      <div class="card-desc">The ultimate guide to loading, cleaning, manipulating, and aggregating data.</div>
+    </a>
+    
+    <a href="cheatsheets/sklearn.html" class="card">
+      <div class="card-title">Scikit-Learn <span class="badge">Modeling</span></div>
+      <div class="card-desc">End-to-end machine learning pipelines, evaluation metrics, and model tuning.</div>
+    </a>
+    
+    <a href="cheatsheets/seaborn.html" class="card">
+      <div class="card-title">Seaborn <span class="badge">Viz</span></div>
+      <div class="card-desc">Statistical data visualization and complex multi-plot grids.</div>
+    </a>
+    
+    <a href="cheatsheets/matplotlib.html" class="card">
+      <div class="card-title">Matplotlib <span class="badge">Viz</span></div>
+      <div class="card-desc">Foundation for custom plots, subplots, and fine-grained visual tuning.</div>
+    </a>
+    
+    <a href="cheatsheets/sql.html" class="card">
+      <div class="card-title">SQL Reference <span class="badge wip">Future</span></div>
+      <div class="card-desc">Advanced querying, window functions, and data warehouse patterns.</div>
+    </a>
+
+    <a href="ml-notes.html" class="card">
+      <div class="card-title">ML Notes <span class="badge wip">Future</span></div>
+      <div class="card-desc">Conceptual notes, interview prep, and algorithm deep dives.</div>
+    </a>
+  </div>
+</div>
+</body>
+</html>

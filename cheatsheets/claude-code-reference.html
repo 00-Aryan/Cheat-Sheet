@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Mastery — AI/ML Student's Reference Sheet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0f14;
+    --bg2: #13161e;
+    --bg3: #1a1e2a;
+    --border: #252836;
+    --border2: #2e3347;
+    --text: #c9cdd8;
+    --text-dim: #676e85;
+    --text-bright: #e8eaf0;
+    --accent: #5a9cf0;
+    --accent2: #3d7de0;
+    --green: #4ecb8d;
+    --red: #f0606e;
+    --amber: #f0b559;
+    --purple: #a47cf0;
+    --teal: #3ec9c9;
+    --mono: 'IBM Plex Mono', 'Courier New', monospace;
+    --sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --sidebar: 260px;
+    --radius: 6px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.7;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* === SIDEBAR === */
+  #sidebar {
+    width: var(--sidebar);
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 0 0 2rem;
+    z-index: 100;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border2) transparent;
+  }
+
+  #sidebar-header {
+    padding: 1.25rem 1.25rem 1rem;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--bg2);
+    z-index: 10;
+  }
+
+  #sidebar-header .logo {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  #sidebar-header h1 {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-bright);
+    line-height: 1.4;
+  }
+
+  .nav-section { padding: 1rem 0 0; }
+
+  .nav-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0 1.25rem 0.4rem;
+    display: block;
+  }
+
+  .nav-item {
+    display: block;
+    padding: 0.35rem 1.25rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+  }
+
+  .nav-item:hover { color: var(--text); background: var(--bg3); }
+  .nav-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(90,156,240,0.07); }
+
+  .nav-sub {
+    display: block;
+    padding: 0.2rem 1.25rem 0.2rem 2rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 12px;
+    opacity: 0.75;
+    transition: color 0.15s, opacity 0.15s;
+  }
+  .nav-sub:hover { color: var(--text); opacity: 1; }
+
+  /* === MAIN CONTENT === */
+  main {
+    margin-left: var(--sidebar);
+    flex: 1;
+    padding: 3rem 2.5rem 5rem;
+    max-width: calc(100vw - var(--sidebar));
+  }
+
+  .content-wrap { max-width: 820px; }
+
+  /* === HERO === */
+  .hero {
+    border: 1px solid var(--border2);
+    background: var(--bg2);
+    border-radius: var(--radius);
+    padding: 1.75rem 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .hero-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .hero-badge::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero h2 {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text-bright);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero p { color: var(--text-dim); font-size: 14px; }
+
+  /* === SECTIONS === */
+  section {
+    margin-bottom: 4rem;
+    scroll-margin-top: 2rem;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(90,156,240,0.1);
+    border: 1px solid rgba(90,156,240,0.25);
+    border-radius: 4px;
+    padding: 2px 8px;
+    min-width: 28px;
+    text-align: center;
+  }
+
+  h2 { font-size: 20px; font-weight: 500; color: var(--text-bright); }
+  h3 { font-size: 15px; font-weight: 500; color: var(--text-bright); margin: 2rem 0 0.75rem; }
+  h4 { font-size: 14px; font-weight: 500; color: var(--teal); margin: 1.5rem 0 0.5rem; font-family: var(--mono); }
+
+  p { margin-bottom: 0.85rem; }
+
+  /* === TABLES === */
+  .table-wrap { overflow-x: auto; margin: 1.25rem 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    min-width: 400px;
+  }
+
+  th {
+    background: var(--bg3);
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 500;
+    padding: 0.6rem 1rem;
+    text-align: left;
+    border: 1px solid var(--border);
+  }
+
+  td {
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text);
+  }
+
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  td code, th code { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+
+  /* === CODE BLOCKS === */
+  pre {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.25rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    position: relative;
+  }
+
+  pre code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: #a8b3c8;
+    line-height: 1.65;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  .pre-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-bottom: none;
+    border-radius: var(--radius) var(--radius) 0 0;
+    padding: 4px 12px;
+    display: inline-block;
+    margin-bottom: -1px;
+  }
+
+  code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--accent);
+    background: rgba(90,156,240,0.1);
+    border: 1px solid rgba(90,156,240,0.2);
+    border-radius: 3px;
+    padding: 1px 5px;
+  }
+
+  /* === CALLOUTS === */
+  .callout {
+    border-radius: var(--radius);
+    padding: 0.9rem 1.1rem;
+    margin: 1rem 0;
+    font-size: 14px;
+    border-left: 3px solid;
+  }
+
+  .callout-info { background: rgba(90,156,240,0.08); border-color: var(--accent); color: var(--text); }
+  .callout-warn { background: rgba(240,181,89,0.08); border-color: var(--amber); color: var(--text); }
+  .callout-tip  { background: rgba(78,203,141,0.08); border-color: var(--green); color: var(--text); }
+  .callout-danger { background: rgba(240,96,110,0.08); border-color: var(--red); color: var(--text); }
+
+  .callout strong { color: inherit; }
+
+  /* === COMMAND CARDS === */
+  .cmd-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 12px;
+    margin: 1.25rem 0;
+  }
+
+  .cmd-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.1rem;
+    transition: border-color 0.2s;
+  }
+
+  .cmd-card:hover { border-color: var(--border2); }
+
+  .cmd-name {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+
+  .cmd-desc { font-size: 13px; color: var(--text); margin-bottom: 0.4rem; }
+
+  .cmd-example {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    background: var(--bg3);
+    border-radius: 3px;
+    padding: 3px 7px;
+    margin-top: 0.3rem;
+    display: inline-block;
+  }
+
+  .cmd-tag {
+    font-size: 10px;
+    font-family: var(--mono);
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .tag-must { background: rgba(240,96,110,0.15); color: var(--red); border: 1px solid rgba(240,96,110,0.3); }
+  .tag-pro  { background: rgba(164,124,240,0.15); color: var(--purple); border: 1px solid rgba(164,124,240,0.3); }
+
+  /* === DO/DON'T === */
+  .dos-donts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.25rem 0;
+  }
+
+  .do-col, .dont-col {
+    background: var(--bg2);
+    border-radius: var(--radius);
+    padding: 1.1rem;
+    border: 1px solid var(--border);
+  }
+
+  .do-col { border-top: 3px solid var(--green); }
+  .dont-col { border-top: 3px solid var(--red); }
+
+  .do-col h4 { color: var(--green); margin-top: 0; margin-bottom: 0.75rem; }
+  .dont-col h4 { color: var(--red); margin-top: 0; margin-bottom: 0.75rem; }
+
+  .do-item, .dont-item {
+    font-size: 13px;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .do-item:last-child, .dont-item:last-child { border-bottom: none; }
+
+  .do-item::before { content: '✓'; color: var(--green); font-family: var(--mono); flex-shrink: 0; }
+  .dont-item::before { content: '✗'; color: var(--red); font-family: var(--mono); flex-shrink: 0; }
+
+  /* === RECIPE STEPS === */
+  .recipe {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin: 1.25rem 0;
+    overflow: hidden;
+  }
+
+  .recipe-header {
+    background: var(--bg3);
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .recipe-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .recipe-title { font-size: 14px; font-weight: 500; color: var(--text-bright); }
+
+  .recipe-body { padding: 1rem 1.25rem; }
+
+  .step {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    min-width: 24px; height: 24px;
+    background: rgba(90,156,240,0.15);
+    color: var(--accent);
+    border-radius: 50%;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-body { font-size: 13.5px; }
+  .step-body code { font-size: 12px; }
+
+  /* === CHECKLIST === */
+  .checklist { list-style: none; margin: 1rem 0; }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 0.45rem 0;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .checklist li::before {
+    content: '';
+    width: 16px; height: 16px;
+    min-width: 16px;
+    border: 1.5px solid var(--border2);
+    border-radius: 3px;
+    margin-top: 3px;
+    display: inline-block;
+  }
+
+  /* === CHEATSHEET GRID === */
+  .cheat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+    margin: 1.25rem 0;
+  }
+
+  .cheat-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .cheat-card-header {
+    background: var(--bg3);
+    padding: 0.6rem 1rem;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* === MISC === */
+  .tag-bar { display: flex; gap: 6px; flex-wrap: wrap; margin: 0.5rem 0; }
+
+  .badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    border: 1px solid;
+  }
+
+  .badge-accent { background: rgba(90,156,240,0.12); color: var(--accent); border-color: rgba(90,156,240,0.3); }
+  .badge-green  { background: rgba(78,203,141,0.12); color: var(--green); border-color: rgba(78,203,141,0.3); }
+  .badge-amber  { background: rgba(240,181,89,0.12); color: var(--amber); border-color: rgba(240,181,89,0.3); }
+  .badge-red    { background: rgba(240,96,110,0.12); color: var(--red); border-color: rgba(240,96,110,0.3); }
+  .badge-purple { background: rgba(164,124,240,0.12); color: var(--purple); border-color: rgba(164,124,240,0.3); }
+
+  ul { padding-left: 1.4rem; margin: 0.5rem 0; }
+  ul li { margin-bottom: 0.3rem; font-size: 14px; }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+
+  .insight-box {
+    background: linear-gradient(135deg, rgba(90,156,240,0.05), rgba(164,124,240,0.05));
+    border: 1px solid rgba(90,156,240,0.2);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    font-size: 14px;
+  }
+
+  .insight-box strong { color: var(--accent); }
+
+  footer {
+    margin-left: var(--sidebar);
+    padding: 1rem 2.5rem;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 768px) {
+    #sidebar { display: none; }
+    main { margin-left: 0; padding: 1.5rem; max-width: 100%; }
+    footer { margin-left: 0; }
+    .dos-donts { grid-template-columns: 1fr; }
+    .cmd-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="sidebar">
+  <div id="sidebar-header">
+    <div class="logo">⬡ Claude Code</div>
+    <h1>AI/ML Student's Reference Sheet</h1>
+  </div>
+  <div class="nav-section">
+    <span class="nav-label">Navigation</span>
+    <a class="nav-item" href="../index.html">← Back to Hub</a>
+    <span class="nav-label" style="margin-top: 1rem;">Sections</span>
+    <a class="nav-item" href="#mindset">01 — Mindset Shift</a>
+    <a class="nav-sub" href="#agentic-loop">The Agentic Loop</a>
+    <a class="nav-item" href="#commands">02 — Slash Commands</a>
+    <a class="nav-sub" href="#builtin-cmds">Built-in Commands</a>
+    <a class="nav-sub" href="#custom-cmds">Custom Commands</a>
+    <a class="nav-item" href="#claude-md">03 — CLAUDE.md</a>
+    <a class="nav-sub" href="#template">ML/DS Template</a>
+    <a class="nav-item" href="#shortcuts">04 — Shortcuts</a>
+    <a class="nav-sub" href="#rewind">Rewind Mode</a>
+    <a class="nav-item" href="#recipes">05 — Workflow Recipes</a>
+    <a class="nav-sub" href="#recipe-a">New ML Project</a>
+    <a class="nav-sub" href="#recipe-b">RAG Pipeline</a>
+    <a class="nav-sub" href="#recipe-c">Notebook Refactor</a>
+    <a class="nav-sub" href="#recipe-d">Debug Training</a>
+    <a class="nav-item" href="#practices">06 — Best Practices</a>
+    <a class="nav-item" href="#cheatsheet">07 — Cheat Sheet</a>
+    <a class="nav-item" href="#checklist">Quick-Start Checklist</a>
+  </div>
+</nav>
+
+<main>
+<div class="content-wrap">
+
+  <div class="hero">
+    <div class="hero-badge">Claude Code — April 2026</div>
+    <h2>Claude Code Mastery: The AI/ML Student's Reference Sheet</h2>
+    <p>You've been using Claude Code like a chat window. This guide will change that. Read once, then keep it open alongside your terminal.</p>
+  </div>
+
+  <!-- SECTION 1 -->
+  <section id="mindset">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2>Mindset Shift: Chat App vs. Claude Code</h2>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Claude.ai (web chat)</th><th>Claude Code (terminal)</th></tr></thead>
+        <tbody>
+          <tr><td>One turn at a time</td><td>Executes multi-step tasks autonomously</td></tr>
+          <tr><td>You paste code into chat</td><td>It reads your actual files directly</td></tr>
+          <tr><td>You manually apply suggestions</td><td>It writes, edits, and creates files itself</td></tr>
+          <tr><td>No awareness of your project structure</td><td>Sees your entire directory tree</td></tr>
+          <tr><td>Forgets everything on refresh</td><td>Persists configuration via CLAUDE.md</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="agentic-loop">The Agentic Loop</h3>
+    <p>Claude Code doesn't just reply — it <strong>acts</strong>:</p>
+
+    <div class="pre-label">agentic loop</div>
+    <pre><code>You give a goal
+    ↓
+Claude reads your files        (Read tool)
+    ↓
+Claude writes or edits code    (Edit/Write tool)
+    ↓
+Claude runs the code           (Bash tool)
+    ↓
+Claude reads output → adjusts → re-runs
+    ↓
+Reports result to you</code></pre>
+
+    <div class="callout callout-info">
+      <strong>The mental model:</strong> Think of it as a junior dev sitting next to you. They have read access to your whole project, can run terminal commands, and remember your rules via CLAUDE.md. They make mistakes but iterate fast when corrected. Your job: give clear goals, review outputs, course-correct early.
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="commands">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2>Essential Slash Commands</h2>
+    </div>
+
+    <div class="callout callout-tip">
+      Type <code>/</code> on an empty prompt to see all commands in your current setup — built-in, custom, and MCP-provided.
+    </div>
+
+    <h3 id="builtin-cmds">Built-in Commands</h3>
+
+    <div class="cmd-grid">
+
+      <div class="cmd-card">
+        <div class="cmd-name">/help</div>
+        <div class="cmd-desc">Lists all available slash commands — built-in, custom, and MCP-sourced.</div>
+        <div class="cmd-example">ML: Run first when stuck. Check before repeating yourself.</div>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">/clear</div>
+        <div class="cmd-desc">Wipes conversation history and resets context window. Fresh start.</div>
+        <div class="cmd-example">ML: Use when switching from debugging train.py → new task</div>
+        <div class="callout callout-warn" style="margin-top:8px;font-size:12px;padding:6px 10px;">⚠ Loses all session history. Use /compact if you want a summary preserved.</div>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">/compact <span class="cmd-tag tag-must">must-know</span></div>
+        <div class="cmd-desc">Summarizes older messages to reclaim context space while preserving key information.</div>
+        <div class="cmd-example">ML: Run proactively in long debugging sessions — before Claude forgets early decisions.</div>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">/context &nbsp;<span style="font-size:11px;color:var(--text-dim)">or /usage</span></div>
+        <div class="cmd-desc">Shows current context window usage and when auto-compaction triggers.</div>
+        <div class="cmd-example">→ "You've used 68% of context. Auto-compact at 95%."</div>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">/memory <span class="cmd-tag tag-must">must-know</span></div>
+        <div class="cmd-desc">Opens your global CLAUDE.md for editing. Persistent across all sessions + all projects.</div>
+        <div class="cmd-example">ML: Add "Always use type hints" or "I use conda, not pip" once. Done forever.</div>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">/add-dir &nbsp;<span style="font-size:11px;color:var(--text-dim)">(or --add-dir flag)</span></div>
+        <div class="cmd-desc">Grants Claude access to directories outside your current working directory.</div>
+        <div class="cmd-example">claude --add-dir ../shared-utils --add-dir ../datasets</div>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">/doctor</div>
+        <div class="cmd-desc">Health check: Node version, auth status, tool connectivity, environment variables.</div>
+        <div class="cmd-example">Run this FIRST when something breaks unexpectedly.</div>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">/model</div>
+        <div class="cmd-desc">Switches the underlying Claude model for current session.</div>
+        <div class="cmd-example">Haiku → fast/cheap. Sonnet → most tasks. Opus → complex planning.</div>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">/ide</div>
+        <div class="cmd-desc">Connects to VS Code or JetBrains. Git diffs open in editor with syntax highlighting.</div>
+        <div class="cmd-example">ML: Essential for reviewing model file changes with side-by-side diffs.</div>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">/terminal-setup</div>
+        <div class="cmd-desc">Configures Alt+Enter (or Option+Enter on Mac) to create a new line instead of sending.</div>
+        <div class="cmd-example">Run once → restart terminal → write multi-line prompts without accidents.</div>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">/permissions</div>
+        <div class="cmd-desc">Shows what Claude can read, write, and execute in current session.</div>
+        <div class="cmd-example">Review before automated pipelines touch your training data.</div>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">/mcp</div>
+        <div class="cmd-desc">Lists and manages connected MCP servers (external integrations).</div>
+        <div class="cmd-example">Connect DB MCP → Claude queries your SQL tables directly.</div>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">/btw <span class="cmd-tag tag-pro">pro</span></div>
+        <div class="cmd-desc">Ask a side question while Claude is actively working — without interrupting it or touching history.</div>
+        <div class="cmd-example">/btw what's the default lr in SGDClassifier?</div>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">/intro</div>
+        <div class="cmd-desc">Scans your project and generates a starter CLAUDE.md file automatically.</div>
+        <div class="cmd-example">Run once per new project. Then edit to add your data safety rules.</div>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">/agents <span class="cmd-tag tag-pro">pro</span></div>
+        <div class="cmd-desc">Shows and manages running sub-agents (specialized Claude instances with their own context).</div>
+        <div class="cmd-example">Use when delegating tasks: one agent for data, one for modeling.</div>
+      </div>
+
+      <div class="cmd-card">
+        <div class="cmd-name">/vim</div>
+        <div class="cmd-desc">Toggles vim keybinding mode for the input field.</div>
+        <div class="cmd-example">Comfortable with vim? This makes writing long prompts much faster.</div>
+      </div>
+
+    </div>
+
+    <h3 id="custom-cmds">Custom Slash Commands</h3>
+    <p>Store commands as Markdown files — they become typed shortcuts.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Location</th><th>Scope</th><th>Use for</th></tr></thead>
+        <tbody>
+          <tr><td><code>.claude/commands/cmd.md</code></td><td>Current project only</td><td>Project-specific workflows (shared via git)</td></tr>
+          <tr><td><code>~/.claude/commands/cmd.md</code></td><td>All projects</td><td>Personal command library</td></tr>
+          <tr><td><code>.claude/skills/</code></td><td>Current project</td><td>Modern approach — natural language invokable</td></tr>
+          <tr><td><code>~/.claude/skills/</code></td><td>All projects</td><td>Personal skills library</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pre-label">bash — create ML profiler command</div>
+    <pre><code>mkdir -p .claude/commands
+cat > .claude/commands/profile-model.md << 'EOF'
+---
+description: Profile model training step for bottlenecks
+allowed-tools: Bash, Read
+---
+Profile the model training script for performance bottlenecks:
+1. Check memory usage with tracemalloc or memory_profiler
+2. Identify slow operations using cProfile
+3. Suggest optimizations (vectorization, batching, caching)
+4. Generate a summary report
+
+Target file: $ARGUMENTS
+EOF</code></pre>
+
+    <p>Usage: <code>/profile-model src/train.py</code></p>
+    <div class="callout callout-tip"><strong>Rule of thumb:</strong> Any prompt you use more than twice becomes a custom command. Repetitive prompts are technical debt.</div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="claude-md">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2>CLAUDE.md: Your Project's Brain</h2>
+    </div>
+
+    <p>CLAUDE.md is a Markdown file Claude reads <strong>at the start of every session</strong>. It's your project's persistent instruction set — ground truth for how Claude behaves in your codebase.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>File</th><th>Scope</th><th>Use for</th></tr></thead>
+        <tbody>
+          <tr><td><code>~/.claude/CLAUDE.md</code></td><td>Global — all projects</td><td>Personal preferences, tool habits, general rules</td></tr>
+          <tr><td><code>./CLAUDE.md</code> (project root)</td><td>This project only</td><td>Project structure, conventions, data warnings</td></tr>
+          <tr><td><code>.claude/rules/*.md</code></td><td>Path-specific</td><td>Rules that only activate on matching files</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-warn"><strong>Keep CLAUDE.md under 200 lines.</strong> Every word loads on every message — it costs context tokens. Move large docs to skills files (loaded on demand only).</div>
+
+    <h3 id="template">ML/DS CLAUDE.md Template</h3>
+
+    <div class="pre-label">markdown — copy-paste into your project root</div>
+    <pre><code># Project: [Your ML Project Name]
+
+## Environment
+- Python 3.11 via conda — environment name: `ml-env`
+- Activate with: `conda activate ml-env`
+- Install packages: `pip install package` OR `conda install package`
+- Do NOT use bare `pip install` — check requirements.txt first
+
+## Project Structure
+project/
+├── data/
+│   ├── raw/          ← NEVER modify. Read-only source of truth.
+│   ├── processed/    ← Cleaned, feature-engineered data
+│   └── splits/       ← Train/val/test CSVs
+├── notebooks/        ← Exploration only. Not production code.
+├── src/
+│   ├── data/         ← Data loading and preprocessing
+│   ├── features/     ← Feature engineering
+│   ├── models/       ← Training and evaluation
+│   └── utils/        ← Shared utilities
+├── tests/            ← pytest unit tests
+├── models/           ← Saved artifacts (.pkl, .pt, .joblib)
+├── reports/          ← Figures and outputs
+└── requirements.txt
+
+## Critical Rules
+- NEVER overwrite data/raw/ without explicit confirmation.
+- Always ask before deleting any file.
+- Do not commit model weights or large data files to git.
+
+## Code Conventions
+- Type hints on all function signatures
+- Google-style docstrings on every function
+- Functions under 40 lines — split if longer
+- Use sklearn.pipeline.Pipeline, not manual chaining
+- Prefer pathlib.Path over os.path
+- Use logging module, not bare print()
+
+## ML-Specific Conventions
+- Set SEED = 42 at top of every training script
+- Always stratify splits: train_test_split(..., stratify=y)
+- Log metrics to console AND save to reports/metrics.json
+- Never hardcode hyperparameters — use config dict or argparse
+
+## Common Commands
+- Train: python src/models/train.py --config configs/default.yaml
+- Preprocess: python src/data/preprocess.py
+- Test: pytest tests/ -v
+- Validate data: python src/data/validate.py
+
+## Current Status
+- Working on: [update this manually]
+- Known issue: [update this manually]</code></pre>
+
+    <h3>Add to Memory Instantly (Without Opening the File)</h3>
+    <p>Type <code>#</code> followed by any statement in the REPL to add it to your project CLAUDE.md immediately:</p>
+    <div class="pre-label">in-session memory shortcut</div>
+    <pre><code># Always use StandardScaler before PCA in this project
+# The target variable is 'converted', not 'label'
+# Model checkpoints go in models/checkpoints/, not models/</code></pre>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="shortcuts">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2>Keyboard Shortcuts &amp; Terminal Hygiene</h2>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Shortcut</th><th>Action</th><th>When to use</th></tr></thead>
+        <tbody>
+          <tr><td><code>Enter</code></td><td>Send message</td><td>Default</td></tr>
+          <tr><td><code>Alt+Enter</code> / <code>Option+Enter</code></td><td>New line (after /terminal-setup)</td><td>Multi-line prompts</td></tr>
+          <tr><td><code>Escape</code></td><td>Interrupt Claude while generating</td><td>Wrong direction — stop it early</td></tr>
+          <tr><td><code>Escape × 2</code></td><td>Enter Rewind Mode</td><td>Undo a series of bad changes</td></tr>
+          <tr><td><code>Ctrl+C</code></td><td>Cancel current operation</td><td>Emergency stop</td></tr>
+          <tr><td><code>Ctrl+D</code></td><td>Exit Claude Code</td><td>End session properly</td></tr>
+          <tr><td><code>Ctrl+S</code></td><td>Stash current prompt</td><td>Side question before continuing</td></tr>
+          <tr><td><code>Ctrl+G</code></td><td>Open full editor for long prompt</td><td>Complex multi-paragraph specs</td></tr>
+          <tr><td><code>Ctrl+F</code></td><td>Kill all background agents (confirm 3s)</td><td>Runaway sub-agent eating tokens</td></tr>
+          <tr><td><code>Ctrl+T</code></td><td>Track sub-agent task list</td><td>Monitor autonomous work</td></tr>
+          <tr><td><code>! command</code></td><td>Run shell command directly</td><td>Bypass conversational layer — faster, fewer tokens</td></tr>
+          <tr><td><code># note</code></td><td>Add note to CLAUDE.md</td><td>Instant memory update without opening file</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="rewind">Rewind Mode (Escape × 2)</h3>
+    <p>One of the most underused features. Press Escape twice, scroll back with ↑, press Enter on any point, then choose:</p>
+    <ul>
+      <li><strong>Restore code and conversation</strong> — full rollback</li>
+      <li><strong>Restore conversation</strong> — rewind chat, keep code changes</li>
+      <li><strong>Restore code</strong> — revert files, keep conversation</li>
+      <li><strong>Summarize from here</strong> — compact from this point forward</li>
+    </ul>
+    <div class="callout callout-tip"><strong>ML use case:</strong> Claude refactored your feature engineering in a direction you hate. Rewind to before it started, correct the instruction, try again.</div>
+
+    <h3>Stash Workflow (Ctrl+S)</h3>
+    <div class="pre-label">scenario</div>
+    <pre><code>You're typing:  "Now refactor the preprocess function to..."
+You realize:    "wait — I need to check which columns are null first"
+
+→ Press Ctrl+S  (stash current prompt)
+→ Type:  ! python -c "import pandas as pd; print(pd.read_csv('data/raw/train.csv').isnull().sum())"
+→ Review output
+→ Your original prompt auto-restores in the input field
+→ Continue writing it with full context</code></pre>
+
+    <h3>Persistent Sessions with tmux</h3>
+    <div class="pre-label">bash</div>
+    <pre><code># Start a named session
+tmux new -s ml-session
+
+# Inside tmux — launch Claude Code
+claude
+
+# Detach (session keeps running even if terminal closes)
+Ctrl+B, then D
+
+# Re-attach later from any terminal
+tmux attach -t ml-session</code></pre>
+    <div class="callout callout-info"><strong>Why this matters:</strong> If Claude is preprocessing a 10GB dataset and you close your laptop, tmux keeps it alive. Non-negotiable for long jobs.</div>
+  </section>
+
+  <!-- SECTION 5 -->
+  <section id="recipes">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <h2>Workflow Recipes for the AI/ML Student</h2>
+    </div>
+
+    <!-- Recipe A -->
+    <div id="recipe-a" class="recipe">
+      <div class="recipe-header">
+        <span class="recipe-label">Recipe A</span>
+        <span class="recipe-title">Starting a New ML Project from Scratch</span>
+      </div>
+      <div class="recipe-body">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">Launch Claude Code in your new project directory.<br>
+          <code>cd ~/projects && mkdir purchase-predictor && cd purchase-predictor && claude</code></div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">Orient Claude immediately with full context before asking it to act.<br>
+          <em>"I'm building a binary classification model to predict e-commerce purchase intent. Dataset: ~100k rows, tabular session features. Stack: Python, scikit-learn, pandas. Set up the full project structure."</em></div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">After structure is created, generate CLAUDE.md: <code>/intro</code> → then edit to add your critical rules (data safety, random seeds, etc.)</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">Add global personal preferences: <code>/memory</code></div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">Initialize git immediately: <code>! git init && git add . && git commit -m "Initial project structure"</code></div>
+        </div>
+        <div class="insight-box"><strong>Key insight:</strong> Structure first, code second. Claude will use the structure it creates as a map for all future work in that session.</div>
+      </div>
+    </div>
+
+    <!-- Recipe B -->
+    <div id="recipe-b" class="recipe" style="margin-top:1.25rem">
+      <div class="recipe-header">
+        <span class="recipe-label">Recipe B</span>
+        <span class="recipe-title">Adding a RAG Retrieval Component to an Existing Codebase</span>
+      </div>
+      <div class="recipe-body">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">Give Claude full access to the project and document store.<br>
+          <code>claude --add-dir . --add-dir ../data/documents</code></div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body"><strong>Orient before asking.</strong> "Read the README and src/ directory. Tell me what you found before we proceed."<br>
+          <em>Wait for the summary. If Claude misunderstands — correct it NOW before it writes a single line.</em></div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">Specify the task with precision. "Add retrieval using FAISS + sentence-transformers. Documents in ../data/documents/*.txt. Create: <code>src/retrieval/retriever.py</code> with DocumentIndexer and Retriever classes. Write tests in <code>tests/test_retriever.py</code>."</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">Run tests immediately: <code>! pytest tests/test_retriever.py -v</code></div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">If tests fail, show the full error. <em>"Tests failed with: [paste output]. Fix the root cause — don't just suppress the error."</em></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recipe C -->
+    <div id="recipe-c" class="recipe" style="margin-top:1.25rem">
+      <div class="recipe-header">
+        <span class="recipe-label">Recipe C</span>
+        <span class="recipe-title">Refactoring a Messy Notebook into Clean Python Scripts</span>
+      </div>
+      <div class="recipe-body">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">Export notebook to script first.<br>
+          <code>! jupyter nbconvert --to script notebooks/data_exploration.ipynb</code></div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">Give Claude the refactor spec. "Read <code>notebooks/data_exploration.py</code>. It's a converted Jupyter notebook — messy. Refactor into <code>src/data/preprocess.py</code>. Requirements: typed functions with docstrings, no bare print() (use logging), separate load/preprocess functions, CLI-callable main(), pathlib for all paths."</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">Verify with a real run. "Run the refactored script on <code>data/raw/sample.csv</code> and show me shape and dtypes before/after."</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">Write tests. "Write pytest unit tests using a small synthetic DataFrame as fixture data."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recipe D -->
+    <div id="recipe-d" class="recipe" style="margin-top:1.25rem">
+      <div class="recipe-header">
+        <span class="recipe-label">Recipe D</span>
+        <span class="recipe-title">Debugging a Training Script (Accuracy Plateauing)</span>
+      </div>
+      <div class="recipe-body">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">Share full context — not just the symptom. "Read <code>src/models/train.py</code> and <code>reports/metrics.json</code>. Accuracy plateaus at 61%. I've tried: adjusting LR, adding dropout. Tell me what you think is happening before suggesting fixes."<br>
+          <em>This "tell me before suggesting" step is critical — it surfaces misunderstandings before code is written.</em></div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">Run diagnostics.<br>
+          <code>! python src/models/train.py --debug --epochs 5</code></div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">Inspect specific outputs (confusion matrix, per-class precision/recall).</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">Iterate one change at a time. "Propose exactly one change, explain why it should help, then implement it. Don't change multiple things at once — I need to know what worked."</div>
+        </div>
+        <div class="callout callout-danger" style="margin-top:8px;font-size:13px"><strong>Anti-pattern:</strong> "Fix the model." → Claude makes 12 changes simultaneously and you learn nothing.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6 -->
+  <section id="practices">
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <h2>Best Practices &amp; Anti-Patterns</h2>
+    </div>
+
+    <div class="dos-donts">
+      <div class="do-col">
+        <h4>✓ Do This</h4>
+        <div class="do-item">Orient Claude before asking it to act — "Read these files. Tell me what they do. Then I'll tell you what to change."</div>
+        <div class="do-item">Give Claude the whole project via <code>--add-dir</code>. Full context → fewer hallucinations.</div>
+        <div class="do-item">Break tasks into named steps. "Step 1: Create loader. Test it. Step 2: ..."</div>
+        <div class="do-item">Run tests after every change. <code>! pytest tests/ -v</code> becomes a reflex.</div>
+        <div class="do-item">Commit after every working increment. <code>! git add . && git commit -m "feat: ..."</code></div>
+        <div class="do-item">Correct early. If Claude misunderstands on the first response, fix it before it builds 200 lines on a wrong assumption.</div>
+        <div class="do-item">Use <code>!</code> for shell commands. Saves tokens, runs faster, no narration.</div>
+        <div class="do-item">Keep CLAUDE.md under 200 lines. Dense prose wastes context every session.</div>
+      </div>
+      <div class="dont-col">
+        <h4>✗ Don't Do This</h4>
+        <div class="dont-item">Paste raw code into the prompt. Claude reads your files directly — <code>--add-dir</code> is free.</div>
+        <div class="dont-item">Ignore <code>/compact</code> in long sessions. Above 70% context → information is already being compressed.</div>
+        <div class="dont-item">Treat it like a search engine. "What's the best embedding model for RAG?" → web search. "Read my retriever.py and suggest one given my constraints" → Claude Code.</div>
+        <div class="dont-item">Ask it to do everything at once. "Build the entire ML pipeline end-to-end" → untestable, untraceable mess.</div>
+        <div class="dont-item">Skip Claude's plan review. If it says something wrong before acting — correct it. Proceeding on a wrong assumption is the #1 source of wasted sessions.</div>
+        <div class="dont-item">Give vague data permission. CLAUDE.md must say "Never modify data/raw/ without confirmation." Make it a rule, not a hope.</div>
+        <div class="dont-item">Carry unrelated context. <code>/clear</code> between different tasks — morning debugging context will confuse afternoon feature work.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7 -->
+  <section id="cheatsheet">
+    <div class="section-head">
+      <span class="section-num">07</span>
+      <h2>Cheat Sheet — Quick Reference</h2>
+    </div>
+
+    <div class="cheat-grid">
+
+      <div class="cheat-card">
+        <div class="cheat-card-header">Installation &amp; Launch</div>
+        <div style="padding:0.75rem 1rem">
+          <div class="pre-label">bash</div>
+          <pre style="margin:0"><code># Install (native binary)
+curl -fsSL https://claude.ai/install.sh | bash
+
+# Launch in current dir
+claude
+
+# With extra dir access
+claude --add-dir ../data
+
+# With starting prompt
+claude "summarize this project"
+
+# Specific model
+claude --model claude-opus-4-6
+
+# CI/headless mode
+claude -p "run tests" --max-turns 5
+
+# Auth commands
+claude auth login
+claude auth status
+claude auth logout</code></pre>
+        </div>
+      </div>
+
+      <div class="cheat-card">
+        <div class="cheat-card-header">Slash Commands</div>
+        <div style="padding:0.75rem 1rem">
+          <div class="table-wrap">
+            <table style="min-width:0">
+              <tbody>
+                <tr><td><code>/help</code></td><td style="font-size:12px">List all commands</td></tr>
+                <tr><td><code>/clear</code></td><td style="font-size:12px">Fresh context</td></tr>
+                <tr><td><code>/compact</code></td><td style="font-size:12px">Compress context</td></tr>
+                <tr><td><code>/context</code></td><td style="font-size:12px">Token usage</td></tr>
+                <tr><td><code>/memory</code></td><td style="font-size:12px">Edit global CLAUDE.md</td></tr>
+                <tr><td><code>/model</code></td><td style="font-size:12px">Switch model</td></tr>
+                <tr><td><code>/ide</code></td><td style="font-size:12px">Connect VS Code</td></tr>
+                <tr><td><code>/terminal-setup</code></td><td style="font-size:12px">Alt+Enter = newline</td></tr>
+                <tr><td><code>/permissions</code></td><td style="font-size:12px">View tool access</td></tr>
+                <tr><td><code>/mcp</code></td><td style="font-size:12px">MCP integrations</td></tr>
+                <tr><td><code>/btw</code></td><td style="font-size:12px">Side question mid-task</td></tr>
+                <tr><td><code>/intro</code></td><td style="font-size:12px">Generate CLAUDE.md</td></tr>
+                <tr><td><code>/doctor</code></td><td style="font-size:12px">Health check</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="cheat-card">
+        <div class="cheat-card-header">Keyboard Shortcuts</div>
+        <div style="padding:0.75rem 1rem">
+          <div class="table-wrap">
+            <table style="min-width:0">
+              <tbody>
+                <tr><td><code>Escape</code></td><td style="font-size:12px">Interrupt generation</td></tr>
+                <tr><td><code>Esc × 2</code></td><td style="font-size:12px">Rewind mode</td></tr>
+                <tr><td><code>Ctrl+C</code></td><td style="font-size:12px">Cancel</td></tr>
+                <tr><td><code>Ctrl+D</code></td><td style="font-size:12px">Exit</td></tr>
+                <tr><td><code>Ctrl+S</code></td><td style="font-size:12px">Stash prompt</td></tr>
+                <tr><td><code>Ctrl+G</code></td><td style="font-size:12px">Full prompt editor</td></tr>
+                <tr><td><code>Ctrl+F</code></td><td style="font-size:12px">Kill all agents</td></tr>
+                <tr><td><code>Ctrl+T</code></td><td style="font-size:12px">Track agents</td></tr>
+                <tr><td><code>Alt+Enter</code></td><td style="font-size:12px">New line</td></tr>
+                <tr><td><code>! cmd</code></td><td style="font-size:12px">Run shell directly</td></tr>
+                <tr><td><code># note</code></td><td style="font-size:12px">Add to CLAUDE.md</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="cheat-card">
+        <div class="cheat-card-header">Model Selection Guide</div>
+        <div style="padding:0.75rem 1rem">
+          <div class="table-wrap">
+            <table style="min-width:0">
+              <thead><tr><th>Task</th><th>Model</th></tr></thead>
+              <tbody>
+                <tr><td style="font-size:12px">Quick fixes, reformatting CSVs</td><td><span class="badge badge-green">haiku-4-5</span></td></tr>
+                <tr><td style="font-size:12px">Most coding, debugging, refactoring</td><td><span class="badge badge-accent">sonnet-4-6</span></td></tr>
+                <tr><td style="font-size:12px">Complex architecture, multi-file planning</td><td><span class="badge badge-purple">opus-4-6</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="cheat-card">
+        <div class="cheat-card-header">CLAUDE.md Hierarchy</div>
+        <div style="padding:0.75rem 1rem">
+          <div class="pre-label">structure</div>
+          <pre style="margin:0"><code>~/.claude/CLAUDE.md       ← global
+./CLAUDE.md               ← project root
+.claude/rules/*.md        ← path-specific
+~/.claude/skills/         ← personal skills
+.claude/skills/           ← project skills
+.claude/agents/           ← subagent defs</code></pre>
+        </div>
+      </div>
+
+      <div class="cheat-card">
+        <div class="cheat-card-header">Context Management Decision</div>
+        <div style="padding:0.75rem 1rem">
+          <div class="pre-label">decision tree</div>
+          <pre style="margin:0"><code>Context > 50% used?
+  No  → Keep going
+  Yes → Same task?
+    Yes → /compact
+    No  → /clear
+
+Context > 70% used?
+  → /compact now, don't wait
+
+Getting inconsistent answers?
+  → Check /context first
+  → Then /compact or /clear</code></pre>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CHECKLIST -->
+  <section id="checklist">
+    <div class="section-head">
+      <span class="section-num">✓</span>
+      <h2>Quick-Start Checklist</h2>
+    </div>
+
+    <ul class="checklist">
+      <li>Install Claude Code: <code>curl -fsSL https://claude.ai/install.sh | bash</code></li>
+      <li>Authenticate: <code>claude auth login</code></li>
+      <li>Run <code>/doctor</code> to verify setup</li>
+      <li>Run <code>/terminal-setup</code> and restart terminal (enables Alt+Enter for newlines)</li>
+      <li>Set global preferences: <code>/memory</code> → add language, tool, and style preferences</li>
+      <li>For each new project: run <code>/intro</code> to generate starter CLAUDE.md</li>
+      <li>Edit CLAUDE.md to add: data safety rules, project structure, common test commands</li>
+      <li>Create your first custom command in <code>.claude/commands/</code></li>
+      <li>Install tmux for persistent sessions: <code>tmux new -s project-name</code></li>
+      <li>Set <code>--add-dir</code> as a habit — always give Claude your full project on launch</li>
+    </ul>
+  </section>
+
+</div>
+</main>
+
+<footer>Claude Code Mastery — AI/ML Student's Reference Sheet — April 2026 — Run /help in your session for the current definitive command list.</footer>
+
+<script>
+  const items = document.querySelectorAll('.nav-item, .nav-sub');
+  const sections = document.querySelectorAll('section, .recipe');
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        items.forEach(a => a.classList.remove('active'));
+        const link = document.querySelector('.nav-item[href="#' + e.target.id + '"]');
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '-60px 0px -60% 0px' });
+
+  document.querySelectorAll('section[id]').forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
